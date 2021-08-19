@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Auth } from 'src/auth/auth.entity';
 import { Todo } from 'src/todo/todo.entity';
-import { User } from 'src/user/user.entity';
+//import { User } from 'src/user/user.entity';
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: 'localhost',
@@ -8,6 +9,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: 'postgres',
   password: 'password',
   database: 'todo',
-  entities: [Todo, User],
+  entities: [Todo, Auth],
   synchronize: true,
 };

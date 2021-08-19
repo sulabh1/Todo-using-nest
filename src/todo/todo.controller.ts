@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 
 import { Todo } from './todo.entity';
 import { TodoService } from './todo.service';
@@ -29,5 +31,12 @@ export class TodoController {
   @Delete()
   deleteTodo(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.todoService.deleteTodo(id);
+  }
+  @Patch('/:id')
+  updateTodo(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTodoDto: UpdateTodoDto,
+  ) {
+    return this.todoService.updateTodo(id, updateTodoDto);
   }
 }

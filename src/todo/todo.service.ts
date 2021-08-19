@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './todo.entity';
 
 @Injectable()
@@ -29,10 +30,15 @@ export class TodoService {
     }
     await this.todo.remove(todos);
   }
-  async updateTodo(id: number, createTodoDto: CreateTodoDto) {
+  async updateTodo(id: number, attr: Partial<Todo>): Promise<Todo> {
     const todos = await this.todo.findOne(id);
     if (!todos) {
-      throw new NotFoundException(`T`);
+      throw new NotFoundException(`Todo with that id ${id} doesnot found`);
     }
+    Object.assign(todos, attr);
+    return await this.todo.save(todos);
+  }
+  async getTodo(): Promise<Todo[]> {
+    return await this.todo.find();
   }
 }
